@@ -4,7 +4,7 @@
 
 This script is idempotent: if AGENTS.md or .agent/template/PLAN.md already exist, they will be left unchanged.
 
-**default**
+**default (Codex)**
 ```sh
 curl -fsSL https://raw.githubusercontent.com/section9-lab/vibe-plans/main/execplan-setup.sh | bash
 ```
@@ -19,11 +19,6 @@ curl -fsSL https://raw.githubusercontent.com/section9-lab/vibe-plans/main/execpl
 curl -fsSL https://raw.githubusercontent.com/section9-lab/vibe-plans/main/execplan-setup.sh | bash -s -- codex
 ```
 
-**Cursor**
-```sh
-curl -fsSL https://raw.githubusercontent.com/section9-lab/vibe-plans/main/execplan-setup.sh | bash -s -- cursor
-```
-
 **OpenCode**
 ```sh
 curl -fsSL https://raw.githubusercontent.com/section9-lab/vibe-plans/main/execplan-setup.sh | bash -s -- opencode
@@ -34,10 +29,12 @@ curl -fsSL https://raw.githubusercontent.com/section9-lab/vibe-plans/main/execpl
 curl -fsSL https://raw.githubusercontent.com/section9-lab/vibe-plans/main/execplan-setup.sh | bash -s -- copilot
 ```
 
+> **Note for Cursor users**: Cursor can use either Claude or Codex as the underlying engine. Choose the corresponding command above based on which engine you have selected in Cursor's settings.
+
 ---
 ## ref
 
 [exec_plans](https://developers.openai.com/cookbook/articles/codex_exec_plans)
 
-LICENSE: 
+LICENSE:
 MIT

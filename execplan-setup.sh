@@ -6,11 +6,10 @@
 # 兼容工具及配置文件:
 # - Codex CLI    → AGENTS.md, .agent/AGENTS.md
 # - Claude Code  → CLAUDE.md
-# - Cursor IDE   → CLAUDE.md, AGENTS.md
 # - Copilot-CLI  → AGENTS.md
 # - OpenCode     → AGENTS.md
 #
-# 用法: ./execplan-setup.sh [codex|claude|cursor|copilot|opencode]
+# 用法: ./execplan-setup.sh [codex|claude|copilot|opencode]
 #        默认: codex
 # ============================================================
 
@@ -31,7 +30,6 @@ get_tool_files() {
   case "$tool" in
     codex)    echo "AGENTS.md .agent/AGENTS.md" ;;
     claude)  echo "CLAUDE.md" ;;
-    cursor)  echo "CLAUDE.md AGENTS.md" ;;
     copilot) echo "AGENTS.md" ;;
     opencode) echo "AGENTS.md" ;;
     *)       echo "AGENTS.md" ;;
@@ -57,7 +55,7 @@ usage() {
 用法: $0 [选项]
 
 选项:
-  --tool <codex|claude|cursor|copilot|opencode>  指定目标工具 (默认: codex)
+  --tool <codex|claude|copilot|opencode>  指定目标工具 (默认: codex)
   -h, --help                                    显示帮助
 
 示例:
@@ -142,6 +140,8 @@ Before you create or modify an ExecPlan, you MUST:
 
 ## 1. How to Use ExecPlans and This PLAN.md
 
+This ExecPlan is a **living document**. The sections `Progress`, `Surprises & Discoveries`, `Decision Log`, and `Outcomes & Retrospective` must be kept up to date as work proceeds.
+
 When authoring an executable specification (ExecPlan), follow this PLAN.md _to the letter_. If it is not in your context, refresh your memory by reading the entire PLAN.md file. Be thorough in reading (and re‑reading) source material to produce an accurate specification. When creating a spec, start from the skeleton and flesh it out as you do your research.
 
 When implementing an executable specification (ExecPlan), do not prompt the user for "next steps"; simply proceed to the next milestone. Keep all sections up to date, add or split entries in the list at every stopping point to affirmatively state the progress made and next steps. Resolve ambiguities autonomously, and commit frequently.
@@ -150,95 +150,105 @@ When discussing an executable specification (ExecPlan), record decisions in a lo
 
 When researching a design with challenging requirements or significant unknowns, use milestones to implement proof of concepts, "toy implementations", etc., that allow validating whether the user's proposal is feasible. Read the source code of libraries by finding or acquiring them, research deeply, and include prototypes to guide a fuller implementation.
 
-## 2. ExecPlan Skeleton
+## 2. Non‑Negotiable Requirements
 
-Every ExecPlan MUST include the following sections. Fill in each section completely.
+Every ExecPlan MUST satisfy all of the following:
+
+1. **Self‑contained**: Contains everything a novice needs to succeed. Do not point to external blogs or docs; embed knowledge directly in the plan.
+2. **Living document**: Must be revised as progress is made, discoveries occur, and design decisions are made.
+3. **Novice‑guiding**: A complete newcomer to the codebase must be able to implement the feature end‑to‑end.
+4. **Outcome‑focused**: Must produce demonstrably valid behavior, not just code changes that satisfy definitions.
+5. **Defined terms**: Every non‑obvious term must be defined in plain language.
+
+**Format rules**:
+- The entire ExecPlan must be enclosed in a single ```md code block.
+- No nested triple backticks inside.
+- Use indentation for commands, diffs, and code snippets.
+- Two blank lines after headings.
+- Prefer sentences over bullet points. Bullet lists are only allowed in the Progress section.
+- Use specific and minimal descriptions.
+
+## 3. ExecPlan Skeleton
+
+Fill in every section completely. Follow the format and examples exactly.
 
 ### Purpose / Big Picture
 
-Explain in a few sentences what the user gets, and how they can see it working. What is the end result that makes this worth doing?
+Explain what the user gets after this change and how they can see it working. State the user‑visible behaviors that will be enabled.
 
 ### Progress
 
-A checkbox list tracking granular steps. MUST reflect actual current state.
+Use checkbox lists to summarize granular steps. Record every stopping point here. Use timestamps to measure progress.
 
 ```
-- [x] Completed step (timestamp)
-- [ ] Incomplete step
-- [ ] Partially done (completed: X; remaining: Y)
+- [x] (2025-10-01 13:00Z) Completed example step.
+- [ ] Incomplete example step.
+- [ ] Partially done (completed: X; remaining: Y).
 ```
 
 ### Surprises & Discoveries
 
-Record unexpected behaviors, bugs, optimizations, or insights.
+Record unexpected behaviors, bugs, optimizations, or insights discovered during implementation. Provide brief evidence.
 
 ```
-- Observation: ...
-- Evidence: ...
+- Observation: …
+- Evidence: …
 ```
 
 ### Decision Log
 
-Record each decision made with context and rationale.
+Record every decision made during the work:
 
 ```
-- Decision: ...
-- Rationale: ...
-- Date/Author: ...
+- Decision: …
+- Rationale: …
+- Date/Author: …
 ```
 
 ### Outcomes & Retrospective
 
-Summary of achievements, gaps, and lessons learned. Completed at milestones or upon completion.
+At major milestones or upon completion, summarize results, gaps, and lessons learned. Compare outcomes against the original Purpose.
 
 ### Context and Orientation
 
-Describe the current state. Introduce key files and modules. What problem are we solving? What files/systems are involved? What prior designs or docs are relevant?
-
-### Goals and Non‑Goals
-
-- Explicitly list what success looks like.
-- Explicitly list what is out of scope.
+Describe the current state relevant to the task, as if the reader knows nothing. Name key files and modules with full paths. Define any non‑obvious terms you will use. Do not reference prior plans.
 
 ### Plan of Work
 
-Describe the order in which sections are edited and added. A numbered list of milestones, each small enough to implement and validate.
+Describe in prose the order in which sections will be edited and added. For each edit, name the file and location (function, module) and what will be inserted or changed. Keep it specific and minimal.
 
 ### Concrete Steps
 
-Specific commands with expected outputs. For each milestone, describe:
-- The concrete change to make.
-- How you will validate it (tests, manual steps, metrics).
+State the exact commands to run and where (working directory). When commands generate output, show brief expected transcriptions for comparison. Update this section as work progresses.
 
 ### Validation and Acceptance
 
-How to start/test the system, what to observe. How to verify the whole change end‑to‑end. Which tests or checks MUST pass before considering the plan done.
+Describe how to start or use the system and what to observe. Express acceptance criteria as behaviors with specific inputs and outputs. If tests are involved, state "run and expect to pass; new tests fail before the change and pass after."
 
 ### Idempotence and Recovery
 
-Explain how to safely repeat steps or recover from failures. Instructions for restarting from the ExecPlan alone.
+If steps can be safely repeated, state so. If steps have risks, provide safe retry or rollback paths. Keep the environment clean after completion.
 
 ### Artifacts and Notes
 
-Important outputs, diffs, code snippets.
+Include the most important transcriptions, diffs, or snippets as indented examples. Keep it concise and focused on evidence of success.
 
 ### Interfaces and Dependencies
 
-Required libraries, modules, services, and their signatures.
+Be specific. Name the libraries, modules, and services to use and why. Specify the types, traits/interfaces, and function signatures that must exist.
 
-## 3. Non‑Negotiable Requirements
+Example:
+In `crates/foo/planner.rs`, define:
 
-NON‑NEGOTIABLE REQUIREMENTS:
+```rust
+pub trait Planner {
+    fn plan(&self, observed: &Observed) -> Vec<PlanStep>;
+}
+```
 
-- Every ExecPlan must be fully self‑contained.
-  - Self‑contained means that in its current form it contains all information needed for an agent to understand and execute the plan, given only the current working tree and this plan file.
-- ExecPlans MUST NOT reference prior, superseded specs as required reading.
-- ExecPlans MUST be kept up to date as work progresses.
-- ExecPlans MUST always reflect the actual state of the work and the next steps.
-- Format: Use a single code block with ```md ... ``` to surround the entire plan.
-- Use two blank lines after headings.
-- Prefer sentences over bullet points where possible.
-- Avoid nested triple backticks.
+### Prototyping Milestones (Optional)
+
+When reducing risk for larger changes, prototyping milestones are allowed. Keep prototypes additive and testable. Clearly mark the scope as "prototyping". Describe how to run and observe results. State criteria for promoting or abandoning the prototype.
 
 PLANEOF
 
@@ -259,7 +269,7 @@ main() {
       --help|-h)
         usage
         ;;
-      codex|claude|cursor|copilot|opencode)
+      codex|claude|copilot|opencode)
         tool="$1"
         shift
         ;;
