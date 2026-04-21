@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # OpenAI ExecPlan + Brainstorming Setup Script
 # 兼容 / 适配主流 vibecoding 工具:
