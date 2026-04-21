@@ -2,7 +2,7 @@
 
 ## use
 
-This script is idempotent: if AGENTS.md or .agent/template/PLAN.md already exist, they will be left unchanged.
+This script is idempotent: if AGENTS.md or .agent/PLANS.md already exist, they will be left unchanged.
 
 **default (Codex)**
 ```sh

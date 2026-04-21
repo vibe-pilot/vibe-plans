@@ -20,8 +20,7 @@ MARKER="Brainstorming Ideas Into Designs"
 PLAN_MARKER="Codex Execution Plans (ExecPlans) with Brainstorming"
 
 AGENT_DIR=".agent"
-TEMPLATE_DIR="$AGENT_DIR/template"
-PLAN_FILE="$TEMPLATE_DIR/PLAN.md"
+PLAN_FILE="$AGENT_DIR/PLANS.md"
 
 # 各工具的配置文件（按优先级排序）
 # 使用关联数组，兼容 bash 4+
@@ -46,7 +45,7 @@ This applies to EVERY project regardless of perceived simplicity.'
 
 EXECPLAN_CONTENT="After the design is explicitly approved by the user, you may:
 - Create or update an ExecPlan document that the coding agent can follow.
-- Use the milestones, logs, and validation steps described in .agent/template/PLAN.md.
+- Use the milestones, logs, and validation steps described in .agent/PLANS.md.
 - Implement the plan autonomously without asking for \"next steps\" at every stage."
 
 # --- 函数 ---
@@ -113,9 +112,9 @@ SECTION
   log "追加: $file"
 }
 
-# 创建 PLAN.md 模板
+# 创建 PLANS.md 模板
 create_plan_template() {
-  ensure_dir "$TEMPLATE_DIR"
+  ensure_dir "$AGENT_DIR"
 
   cat > "$PLAN_FILE" << 'PLANEOF'
 # Codex Execution Plans (ExecPlans) with Brainstorming
@@ -138,11 +137,11 @@ Before you create or modify an ExecPlan, you MUST:
 3. Propose one or more design options and get explicit user approval of the chosen design.
 4. Only after approval, proceed to author or update the ExecPlan described below.
 
-## 1. How to Use ExecPlans and This PLAN.md
+## 1. How to Use ExecPlans and This PLANS.md
 
 This ExecPlan is a **living document**. The sections `Progress`, `Surprises & Discoveries`, `Decision Log`, and `Outcomes & Retrospective` must be kept up to date as work proceeds.
 
-When authoring an executable specification (ExecPlan), follow this PLAN.md _to the letter_. If it is not in your context, refresh your memory by reading the entire PLAN.md file. Be thorough in reading (and re‑reading) source material to produce an accurate specification. When creating a spec, start from the skeleton and flesh it out as you do your research.
+When authoring an executable specification (ExecPlan), follow this PLANS.md _to the letter_. If it is not in your context, refresh your memory by reading the entire PLANS.md file. Be thorough in reading (and re‑reading) source material to produce an accurate specification. When creating a spec, start from the skeleton and flesh it out as you do your research.
 
 When implementing an executable specification (ExecPlan), do not prompt the user for "next steps"; simply proceed to the next milestone. Keep all sections up to date, add or split entries in the list at every stopping point to affirmatively state the progress made and next steps. Resolve ambiguities autonomously, and commit frequently.
 
@@ -364,7 +363,7 @@ When starting ANY new task (feature, refactor, config, documentation structure, 
 ## 2. ExecPlans (Design → Implementation Phase)
 
 When writing complex features or significant refactors, AFTER the design has been approved,
-use an ExecPlan (as described in .agent/template/PLAN.md) from design to implementation.
+use an ExecPlan (as described in .agent/PLANS.md) from design to implementation.
 
 ExecPlans are living documents that:
 - Are fully self‑contained (no external memory beyond the working tree and the plan file itself).
@@ -373,7 +372,7 @@ ExecPlans are living documents that:
 
 Agents MUST:
 - Always follow the Brainstorming phase BEFORE creating or modifying ExecPlans.
-- Then follow the ExecPlan rules in .agent/template/PLAN.md _to the letter_ during implementation.
+- Then follow the ExecPlan rules in .agent/PLANS.md _to the letter_ during implementation.
 AGENTS
       log "创建: $agent_file"
     elif has_marker "$agent_file"; then
@@ -401,7 +400,7 @@ When starting ANY new task (feature, refactor, config, documentation structure, 
 ## 2. ExecPlans (Design → Implementation Phase)
 
 When writing complex features or significant refactors, AFTER the design has been approved,
-use an ExecPlan (as described in .agent/template/PLAN.md) from design to implementation.
+use an ExecPlan (as described in .agent/PLANS.md) from design to implementation.
 
 ExecPlans are living documents that:
 - Are fully self‑contained (no external memory beyond the working tree and the plan file itself).
@@ -410,7 +409,7 @@ ExecPlans are living documents that:
 
 Agents MUST:
 - Always follow the Brainstorming phase BEFORE creating or modifying ExecPlans.
-- Then follow the ExecPlan rules in .agent/template/PLAN.md _to the letter_ during implementation.
+- Then follow the ExecPlan rules in .agent/PLANS.md _to the letter_ during implementation.
 AGENTS
       log "替换: $agent_file (检测到文件被覆盖，已恢复)"
     else
@@ -439,7 +438,7 @@ When starting ANY new task (feature, refactor, config, documentation structure, 
 ## 2. ExecPlans (Design → Implementation Phase)
 
 When writing complex features or significant refactors, AFTER the design has been approved,
-use an ExecPlan (as described in .agent/template/PLAN.md) from design to implementation.
+use an ExecPlan (as described in .agent/PLANS.md) from design to implementation.
 
 ExecPlans are living documents that:
 - Are fully self‑contained (no external memory beyond the working tree and the plan file itself).
@@ -448,13 +447,13 @@ ExecPlans are living documents that:
 
 Agents MUST:
 - Always follow the Brainstorming phase BEFORE creating or modifying ExecPlans.
-- Then follow the ExecPlan rules in .agent/template/PLAN.md _to the letter_ during implementation.
+- Then follow the ExecPlan rules in .agent/PLANS.md _to the letter_ during implementation.
 AGENTS
       log "追加: $agent_file"
     fi
   fi
 
-  # 3. 创建/更新 PLAN.md 模板
+  # 3. 创建/更新 PLANS.md 模板
   if [[ -f "$PLAN_FILE" ]] && grep -q "$PLAN_MARKER" "$PLAN_FILE"; then
     log "跳过: $PLAN_FILE (已是最新版模板)"
   else
