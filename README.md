@@ -1,5 +1,5 @@
 <div align="center">
-  <h1 align="center">exec-plans</h1>
+  <h1 align="center">OpenExecPlans</h1>
 </div>
 
 ## use
